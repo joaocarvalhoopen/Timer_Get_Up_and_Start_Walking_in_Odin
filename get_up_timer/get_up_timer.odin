@@ -144,36 +144,33 @@ Valid commands are:
 
             fmt.printfln( "\"%s\" %s", str_tmp_1, invalid_usage )
             continue
-        } else {
-
-            if pair_str[ 0 ] != "interval" {
-
-                fmt.printfln( "\"%s\" %s", str_tmp_1, invalid_usage )
-                continue
-            } else {
-
-                value := pair_str[ 1 ]
-                minutes, ok := strconv.parse_int( value )
-                if !ok || minutes < 0 || minutes > 180 {
-
-                    fmt.printfln( "Error: interval  must be [ 0, 180 ]" )
-                    continue
-                } else {
-
-                    // get_up_timer.time_interval = cast( time.Duration ) i64( minutes ) * time.Second
-                    get_up_timer.time_interval = cast( time.Duration ) i64( minutes ) * time.Minute
-
-                    new_zero_time_interval := time.time_add( time.Time{ }, get_up_timer.time_interval )
-                    new_interval_str := time_to_string( new_zero_time_interval )
-                    defer delete( new_interval_str )
-
-                    fmt.printfln( "Inteval set to %v", new_interval_str )
-                    continue
-                }
-
-            }
         }
 
+        if pair_str[ 0 ] != "interval" {
+
+            fmt.printfln( "\"%s\" %s", str_tmp_1, invalid_usage )
+            continue
+        }
+
+        value := pair_str[ 1 ]
+        minutes, ok := strconv.parse_int( value )
+        if !ok || minutes < 0 || minutes > 180 {
+
+           fmt.printfln( "Error: interval  must be [ 0, 180 ]" )
+           continue
+        }
+
+        // get_up_timer.time_interval = cast( time.Duration ) i64( minutes ) * time.Second
+        get_up_timer.time_interval = cast( time.Duration ) i64( minutes ) * time.Minute
+
+        new_zero_time_interval := time.time_add( time.Time{ }, get_up_timer.time_interval )
+        new_interval_str := time_to_string( new_zero_time_interval )
+        defer delete( new_interval_str )
+
+        fmt.printfln( "Inteval set to %v", new_interval_str )
+        continue
+
+        // end parse interval.
     }
 
 }
